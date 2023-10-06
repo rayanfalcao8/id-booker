@@ -37,7 +37,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-            @include('partials.sidebar')
+            @include('partials.sidebar-user')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->

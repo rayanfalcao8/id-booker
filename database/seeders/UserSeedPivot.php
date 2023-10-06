@@ -15,9 +15,15 @@ class UserSeedPivot extends Seeder
     public function run()
     {
         $roles = [
-            
+
             1 => [
                 'roles' => [1],
+            ],
+            2 => [
+                'roles' => [2],
+            ],
+            3 => [
+                'roles' => [3],
             ],
 
         ];

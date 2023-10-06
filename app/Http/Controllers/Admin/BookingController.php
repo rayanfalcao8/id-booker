@@ -16,7 +16,21 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function user(Request $request)
+    {
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bookings = booking::where('customer_id', $request->user()->id)->get();
+
+        return view('admin.bookings.user', compact('bookings'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -45,6 +59,24 @@ class BookingController extends Controller
     return view('admin.bookings.create', compact('customers', 'rooms', 'roomId', 'timeFrom', 'timeTo'));
     }
 
+    /**
+     * Show the form for creating new Booking.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function userCreate(Request $request)
+    {
+        abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $customers = Customer::get()->pluck('full_name', 'id');
+        $rooms = Room::get()->pluck('room_number', 'id');
+        $roomId = $request->get('room_id');
+        $timeFrom = $request->get('time_from');
+        $timeTo = $request->get('time_to');
+
+        return view('admin.bookings.user-create', compact('customers', 'rooms', 'roomId', 'timeFrom', 'timeTo'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -64,6 +96,25 @@ class BookingController extends Controller
         ]);
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeUser(BookingRequest $request)
+    {
+        abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        Booking::create($request->validated());
+
+        return redirect()->route('admin.bookings.user')->with([
+            'message' => 'successfully created !',
+            'alert-type' => 'success'
+        ]);
+    }
+
      /**
      * Display Booking.
      *
@@ -75,6 +126,21 @@ class BookingController extends Controller
         abort_if(Gate::denies('booking_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.bookings.show', compact('booking'));
+    }
+
+    /**
+     * Display Booking.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showUser($id)
+    {
+        abort_if(Gate::denies('booking_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $booking = booking::find($id);
+
+        return view('admin.bookings.user-show', compact('booking'));
     }
 
     /**

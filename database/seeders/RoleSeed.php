@@ -17,10 +17,14 @@ class RoleSeed extends Seeder
         $roles = [
             [
                 'id'    => 1,
-                'title' => 'admin',
+                'title' => 'super_admin',
             ],
             [
                 'id'    => 2,
+                'title' => 'admin',
+            ],
+            [
+                'id'    => 3,
                 'title' => 'user',
             ],
         ];
