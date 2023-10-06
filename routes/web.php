@@ -20,14 +20,14 @@ Route::get('', function () {
 });
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::group(['middleware' => ['isAdmin','auth']], function() {
-        Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
-    });
-    Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'user'])->name('dashboard.index');
+    Route::get('dashboard/user', [\App\Http\Controllers\Admin\DashboardController::class, 'user'])->name('dashboard.user');
     Route::get('user/bookings', [\App\Http\Controllers\Admin\BookingController::class, 'user'])->name('user.bookings.user');
     Route::get('user/bookings/show/{id}', [\App\Http\Controllers\Admin\BookingController::class, 'showUser'])->name('user.bookings.user-show');
     Route::get('user/bookings/create', [\App\Http\Controllers\Admin\BookingController::class, 'userCreate'])->name('user.bookings.user-create');
 
+    Route::group(['middleware' => ['isAdmin','auth']], function() {
+        Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
+    });
     Route::group(['middleware' => ['isAdmin','auth'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class);
         Route::delete('permissions_mass_destroy', [\App\Http\Controllers\Admin\PermissionController::class, 'massDestroy'])->name('permissions.mass_destroy');

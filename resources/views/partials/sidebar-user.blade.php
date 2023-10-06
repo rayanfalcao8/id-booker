@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('dashboard/user') }}">
                 <div class="sidebar-brand-text mx-3">{{ __('ID BOOKER') }}</div>
             </a>
 
@@ -9,7 +9,7 @@
             <hr class="sidebar-divider my-0">
 
             <li class="nav-item {{ request()->is('dashboard') || request()->is('dashboard') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                <a class="nav-link" href="{{ route('dashboard.user') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
